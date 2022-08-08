@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
-Main-Class: util.Business
+Main-Class: util.ConsoleParser
 Class-Path: args4j-2.33.jar
 
