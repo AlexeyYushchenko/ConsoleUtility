@@ -7,7 +7,6 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.SubCommand;
 import org.kohsuke.args4j.spi.SubCommandHandler;
 import org.kohsuke.args4j.spi.SubCommands;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -172,14 +171,14 @@ public class ConsoleParser {
             String result = "";
             if (humanReadable) {
                 result = String.format("%s%s%s",
-                        file.canRead() ? "r" : "-",
-                        file.canWrite() ? "w" : "-",
+                        file.canRead() ?    "r" : "-",
+                        file.canWrite() ?   "w" : "-",
                         file.canExecute() ? "x" : "-"
                 );
             } else if (longFormat) {
                 result = String.format("%s%s%s",
-                        file.canRead() ? "1" : "0",
-                        file.canWrite() ? "1" : "0",
+                        file.canRead() ?    "1" : "0",
+                        file.canWrite() ?   "1" : "0",
                         file.canExecute() ? "1" : "0"
                 );
             }
@@ -455,7 +454,7 @@ public class ConsoleParser {
         private String in;
 
         @Option(name = "-o",
-                aliases = "--output",
+                aliases = "-out",
                 usage = "[-o output.txt] - outputs information to the specified file.",
                 required = true)
         private String out;
@@ -480,29 +479,6 @@ public class ConsoleParser {
             }
         }
 
-        private String unpackRle(StringBuilder original) {
-            StringBuilder res = new StringBuilder();
-            char[] chars = original.toString().toCharArray();
-            StringBuilder digitBuilder = new StringBuilder();
-            for (char c : chars) {
-                if (Character.isDigit(c)) {
-                    digitBuilder.append(c);
-                } else if (Character.isLetter(c)) {
-                    if (digitBuilder.toString().length() > 0) {
-                        res.append(String.valueOf(c).repeat(Integer.parseInt(digitBuilder.toString())));
-                        digitBuilder = new StringBuilder();
-                    } else {
-                        res.append(c);
-                    }
-                }else {
-                    throw new InputMismatchException("Wrong character: '" + c + "'.");
-                }
-            }
-            System.out.println(original);
-            System.out.println(res);
-            return res.toString();
-        }
-
         private String packRle(StringBuilder original) {
             StringBuilder res = new StringBuilder();
             char[] chars = original.toString().toCharArray();
@@ -520,6 +496,29 @@ public class ConsoleParser {
                 if (i == chars.length - 1) {
                     if (counter > 1) res.append(counter);
                     res.append(chars[i]);
+                }
+            }
+            System.out.println(original);
+            System.out.println(res);
+            return res.toString();
+        }
+
+        private String unpackRle(StringBuilder original) {
+            StringBuilder res = new StringBuilder();
+            char[] chars = original.toString().toCharArray();
+            StringBuilder digitBuilder = new StringBuilder();
+            for (char c : chars) {
+                if (Character.isDigit(c)) {
+                    digitBuilder.append(c);
+                } else if (Character.isLetter(c)) {
+                    if (digitBuilder.toString().length() > 0) {
+                        res.append(String.valueOf(c).repeat(Integer.parseInt(digitBuilder.toString())));
+                        digitBuilder = new StringBuilder();
+                    } else {
+                        res.append(c);
+                    }
+                }else {
+                    throw new InputMismatchException("Wrong character: '" + c + "'.");
                 }
             }
             System.out.println(original);

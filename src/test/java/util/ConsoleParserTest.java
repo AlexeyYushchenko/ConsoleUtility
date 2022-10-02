@@ -98,13 +98,13 @@ class ConsoleParserTest {
 
     @Test
     void testPackRLE(){
-        System.out.println("Pack RLE -z");
+        System.out.println("Pack-RLE -z");
         ConsoleParser.main(new String[]{PACK_RLE, "-z", "-o", "output4PackRle.txt", "input.txt"});
     }
 
     @Test
     void testUnpackRLE(){
-        System.out.println("Pack RLE -u");
+        System.out.println("Pack-RLE -u");
         ConsoleParser.main(new String[]{PACK_RLE, "-u", "-o", "output4PackRle.txt", "input.txt"});
     }
 }
